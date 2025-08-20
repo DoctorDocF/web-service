@@ -53,7 +53,7 @@ app.listen(PORT, '0.0.0.0', () => {
 }); */
 
 const express = require('express');
-const db = require('./backend/db');
+const sequelize = require('./backend/db');
 const entryRoutes = require('./backend/routes/entry.routes');
 const tagRoutes = require('./backend/routes/tag.routes');
 const cors = require('cors');
@@ -112,10 +112,10 @@ app.use((error, req, res, next) => {
 });
 
 // Запуск с обработкой ошибок БД
-db.sequelize.authenticate()
+sequelize.authenticate()
   .then(() => {
     console.log('✅ Database connected successfully');
-    return db.sequelize.sync({ force: false });
+    return sequelize.sync({ force: false });
   })
   .then(() => {
     console.log('✅ Database synced');
