@@ -112,7 +112,7 @@ app.use((error, req, res, next) => {
 });
 
 // Запуск с обработкой ошибок БД
-sequelize.authenticate()
+/* sequelize.authenticate()
   .then(() => {
     console.log('✅ Database connected successfully');
     return sequelize.sync({ force: false });
@@ -126,4 +126,9 @@ sequelize.authenticate()
   .catch(error => {
     console.error('❌ Database connection failed:', error);
     process.exit(1);
-  });
+  }); */
+
+  app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log('✅ Ready for demonstration!');
+});
