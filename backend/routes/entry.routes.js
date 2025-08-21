@@ -1,36 +1,13 @@
-exports.getAllEntries = (req, res) => {
-  // Временные тестовые данные
-  res.json([
-    { id: 1, title: 'Тестовая запись 1', content: 'Это первая демо-запись' },
-    { id: 2, title: 'Тестовая запись 2', content: 'Вторая демо-запись' }
-  ]);
-};
+const router = require('express').Router();
+const controller = require('../controllers/entry.controller');
 
-exports.createEntry = (req, res) => {
-  res.json({
-    message: 'Запись была бы создана',
-    data: req.body
-  });
-};
+router.route('/')
+  .get(controller.getAllEntries)
+  .post(controller.createEntry);
 
-exports.getEntryById = (req, res) => {
-  res.json({
-    id: Number(req.params.id),
-    title: `Запись №${req.params.id}`,
-    content: 'Демонстрационная запись'
-  });
-};
+router.route('/:id')
+  .get(controller.getEntryById)
+  .put(controller.updateEntry)
+  .delete(controller.deleteEntry);
 
-exports.updateEntry = (req, res) => {
-  res.json({
-    message: 'Запись была бы обновлена',
-    updatedData: req.body
-  });
-};
-
-exports.deleteEntry = (req, res) => {
-  res.json({
-    message: 'Запись была бы удалена',
-    deletedId: req.params.id
-  });
-};
+module.exports = router;
