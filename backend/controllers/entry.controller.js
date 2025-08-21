@@ -1,4 +1,4 @@
-const Entry = require('../models/Entry');
+/* const Entry = require('../models/Entry');
 
 exports.getAllEntries = async (req, res) => {
   try {
@@ -55,4 +55,50 @@ exports.deleteEntry = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+}; */
+
+const Entry = require('../models/Entry');
+
+// Временные данные для демонстрации
+const demoEntries = [
+  { id: 1, title: 'Демо запись 1', content: 'Работает на Render!' },
+  { id: 2, title: 'Демо запись 2', content: 'API endpoint активен' }
+];
+
+exports.getAllEntries = async (req, res) => {
+  try {
+    // const entries = await Entry.findAll();
+    res.json(demoEntries);
+  } catch (error) {
+    res.json(demoEntries); // Всегда возвращаем демо данные
+  }
+};
+
+exports.createEntry = async (req, res) => {
+  try {
+    // const newEntry = await Entry.create(req.body);
+    const newEntry = { id: Date.now(), ...req.body };
+    res.json(newEntry);
+  } catch (error) {
+    res.json({ id: Date.now(), ...req.body, message: 'Демо режим' });
+  }
+};
+
+exports.getEntryById = async (req, res) => {
+  try {
+    // const entry = await Entry.findByPk(req.params.id);
+    const entry = demoEntries.find(e => e.id == req.params.id) || { id: req.params.id, title: 'Демо', content: 'Не найдено' };
+    res.json(entry);
+  } catch (error) {
+    res.json({ id: req.params.id, title: 'Демо', content: 'Ошибка БД' });
+  }
+};
+
+// Аналогично для updateEntry и deleteEntry...
+exports.updateEntry = async (req, res) => {
+  res.json({ id: req.params.id, ...req.body, message: 'Демо: запись обновлена' });
+};
+
+exports.deleteEntry = async (req, res) => {
+  res.json({ message: `Демо: запись ${req.params.id} удалена` });
 };
