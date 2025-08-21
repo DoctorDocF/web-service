@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+/* const Sequelize = require('sequelize');
 const config = require('./config');
 
 // Для Render всегда используем PostgreSQL
@@ -25,4 +25,23 @@ if (process.env.RENDER === 'true') {
   });
   console.log('✅ Using MySQL locally');
   module.exports = db;
-}
+} */
+
+const Sequelize = require('sequelize');
+const config = require('./config');
+
+// Принудительно используем только PostgreSQL на Render
+const db = new Sequelize(config.DATABASE_URI, {
+  dialect: 'postgres',
+  dialectModule: require('pg'),
+  logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+});
+
+console.log('✅ Force using PostgreSQL only');
+module.exports = db;
